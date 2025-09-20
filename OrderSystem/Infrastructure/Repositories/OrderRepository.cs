@@ -1,6 +1,6 @@
-﻿using OrderSystem.Context;
-using OrderSystem.Domain.Interfaces;
+﻿using OrderSystem.Domain.Interfaces;
 using OrderSystem.Domain.Models;
+using OrderSystem.Infrastructure.Context;
 
 namespace OrderSystem.Infrastructure.Repositories
 {
