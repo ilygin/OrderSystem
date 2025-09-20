@@ -8,6 +8,7 @@ namespace OrderSystem.Context
         public OrderSystemDbContext(DbContextOptions<OrderSystemDbContext> options)
             : base(options)
         {
+            Database.EnsureCreated();
         }
         public DbSet<Order> Orders { get; set; }
     }
