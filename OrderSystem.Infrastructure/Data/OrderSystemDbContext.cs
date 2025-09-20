@@ -1,8 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OrderSystem.Models;
-using OrderSystem.Models.Domain;
+using Microsoft.EntityFrameworkCore;
+using OrderSystem.Domain.Entities;
 
-namespace OrderSystem.Context
+namespace OrderSystem.Infrastructure.Data
 {
     public class OrderSystemDbContext : DbContext
     {
@@ -10,6 +9,7 @@ namespace OrderSystem.Context
             : base(options)
         {
         }
+
         public DbSet<Order> Orders { get; set; }
     }
 }

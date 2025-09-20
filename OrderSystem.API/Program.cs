@@ -1,6 +1,5 @@
-using OrderSystem.Context;
+using OrderSystem.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using Npgsql.EntityFrameworkCore.PostgreSQL; // Add this using directive
 
 var builder = WebApplication.CreateBuilder(args);
 

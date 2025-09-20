@@ -1,4 +1,4 @@
-﻿namespace OrderSystem.Models.Domain
+namespace OrderSystem.Domain.Entities
 {
     public class Order
     {
@@ -7,6 +7,5 @@
         public DateTime ModifiedOn { get; set; }
         public string? CustomerName { get; set; }
         public decimal TotalAmount { get; set; }
-
     }
 }
