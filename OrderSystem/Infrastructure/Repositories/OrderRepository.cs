@@ -1,4 +1,5 @@
 ﻿using OrderSystem.Context;
+using OrderSystem.Domain.Enums;
 using OrderSystem.Domain.Interfaces;
 using OrderSystem.Domain.Models;
 
@@ -6,9 +7,8 @@ namespace OrderSystem.Infrastructure.Repositories
 {
     public class OrderRepository(OrderSystemDbContext context) : IOrderRepository
     {
-        private const int BATCH_SIZE = 2000;
         private readonly OrderSystemDbContext _context = context;
-        //TODO: Implement Controllers, Services. Add mappers. Split Domain and Dtos. 
+
         public void CreateOrder(Order order)
         {
             order.CreatedOn = DateTime.UtcNow;
@@ -18,8 +18,8 @@ namespace OrderSystem.Infrastructure.Repositories
         }
         public int CreateOrderBatch(List<Order> orders)
         {
-            if (orders == null || !orders.Any()) return 0;
-            return orders.Chunk(BATCH_SIZE).Sum(batch => CreateOrderBatchQuery(batch.ToList()));
+            if (orders == null || orders.Count == 0) return 0;
+            return orders.Chunk(PaginationOptions.BatchSize).Sum(batch => CreateOrderBatchQuery(batch.ToList()));
         }
         private int CreateOrderBatchQuery(List<Order> orders)
         {
@@ -34,29 +34,53 @@ namespace OrderSystem.Infrastructure.Repositories
 
         public int UpdateOrder(Order order)
         {
+            if (order == null) return 0;
             order.ModifiedOn = DateTime.UtcNow;
             _context.Orders.Update(order);
             return 1;
         }
-        public int UpdateOrders(List<Order> orders)
+        public int UpdateOrdersRange(List<Order> orders)
         {
+            if (orders == null || orders.Count == 0) return 0;
             orders.ForEach(order => order.ModifiedOn = DateTime.UtcNow);
             _context.Orders.UpdateRange(orders);
             return orders.Count;
         }
 
-        public int DeleteOrder(Guid orderId)
+        public int DeleteOrder(Order order)
         {
-            throw new NotImplementedException();
+            if (order == null) return 0;
+            _context.Orders.Remove(order);
+            return 1;
+        }
+        public int DeleteOrderRange(List<Order> orders)
+        {
+            if (orders == null || orders.Count == 0) return 0;
+            _context.Orders.RemoveRange(orders);
+            return orders.Count;
         }
         public Order? GetOrderById(Guid orderId)
         {
+            if(orderId == Guid.Empty) return null;
             return _context.Orders.Find(orderId);
         }
 
         public IEnumerable<Order> GetAllOrders()
         {
-            throw new NotImplementedException();
+            int totalCount = _context.Orders.Count();
+            int totalPages = (totalCount + PaginationOptions.PageSize - 1) / PaginationOptions.PageSize;
+            
+            for (int pageNumber = 1; pageNumber <= totalPages; pageNumber++)
+            {
+                foreach (var order in GetOrdersByPage(pageNumber, PaginationOptions.PageSize))
+                {
+                    yield return order;
+                }
+            }
+        }
+        private IEnumerable<Order> GetOrdersByPage(int pageNumber, int pageSize)
+        {
+            return _context.Orders.OrderBy(o => o.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize);
         }
     }
 }
