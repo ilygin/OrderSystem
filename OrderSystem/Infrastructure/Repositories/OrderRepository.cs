@@ -50,13 +50,8 @@ namespace OrderSystem.Infrastructure.Repositories
         public int DeleteOrder(Order order)
         {
             if (order == null) return 0;
-            bool exists = _context.Orders.Any(o => o.Id == order.Id);
-            if(exists)
-            {
-                _context.Orders.Remove(order);
-                return 1;
-            }
-            return 0;
+            var result = _context.Orders.Remove(order);
+            return result.Entity.Id != Guid.Empty ? 1 : 0;
         }
         public int DeleteOrderRange(List<Order> orders)
         {

@@ -90,9 +90,9 @@ namespace OrderSystem.Tests
                 Assert.Equal(1, counter);
 
                 var updatedOrder = repository.GetOrderById(order.Id);
+                Assert.NotNull(updatedOrder);
+                Assert.Equal("Updated Customer", updatedOrder.CustomerName);
             }
-            Assert.NotNull(order);
-            Assert.Equal("Updated Customer", order.CustomerName);
         }
     }
 }
