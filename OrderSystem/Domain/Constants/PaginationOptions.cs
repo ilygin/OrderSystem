@@ -1,4 +1,4 @@
-﻿namespace OrderSystem.Domain.Enums
+﻿namespace OrderSystem.Domain.Constants
 {
     public static class PaginationOptions
     {

@@ -1,5 +1,5 @@
 ﻿using OrderSystem.Context;
-using OrderSystem.Domain.Enums;
+using OrderSystem.Domain.Constants;
 using OrderSystem.Domain.Interfaces;
 using OrderSystem.Domain.Models;
 
@@ -50,8 +50,13 @@ namespace OrderSystem.Infrastructure.Repositories
         public int DeleteOrder(Order order)
         {
             if (order == null) return 0;
-            _context.Orders.Remove(order);
-            return 1;
+            bool exists = _context.Orders.Any(o => o.Id == order.Id);
+            if(exists)
+            {
+                _context.Orders.Remove(order);
+                return 1;
+            }
+            return 0;
         }
         public int DeleteOrderRange(List<Order> orders)
         {

@@ -32,11 +32,6 @@ namespace OrderSystem.Tests
                     ModifiedOn = DateTime.UtcNow
                 });
                 await context.SaveChangesAsync();
-            }
-
-            // Act
-            using (var context = new OrderSystemDbContext(options))
-            {
                 var repository = new OrderRepository(context);
                 var result = repository.GetOrderById(orderId);
 
@@ -56,23 +51,17 @@ namespace OrderSystem.Tests
 
             using (var context = new OrderSystemDbContext(options))
             {
-                context.Orders.Add(new Order
+                var repository = new OrderRepository(context);
+                var order = new Order
                 {
                     Id = orderId,
                     CustomerName = "Test Customer",
                     TotalAmount = 100.50m,
                     CreatedOn = DateTime.UtcNow,
                     ModifiedOn = DateTime.UtcNow
-                });
-            }
-
-            //Act
-            using (var context = new OrderSystemDbContext(options))
-            {
-                var repository = new OrderRepository(context);
-                Order order = new Order { Id = orderId };
+                };
+                repository.CreateOrder(order);
                 var result = repository.DeleteOrder(order);
-
                 Assert.Equal(1, result);
             }
         }
@@ -95,19 +84,11 @@ namespace OrderSystem.Tests
             {
                 var repository = new OrderRepository(context);
                 repository.CreateOrder(order);
-            }
 
-            using (var context = new OrderSystemDbContext(options))
-            {
-                var repository = new OrderRepository(context);
                 order.CustomerName = "Updated Customer";
                 int counter = repository.UpdateOrder(order);
                 Assert.Equal(1, counter);
-            }
 
-            using (var context = new OrderSystemDbContext(options))
-            {
-                var repository = new OrderRepository(context);
                 var updatedOrder = repository.GetOrderById(order.Id);
             }
             Assert.NotNull(order);
