@@ -6,7 +6,9 @@ namespace OrderSystem.Domain.Interfaces
     {
         void CreateOrder(Order order);
         int UpdateOrder(Order order);
-        int DeleteOrder(Guid orderId);
+        int UpdateOrdersRange(List<Order> orders);
+        int DeleteOrder(Order order);
+        int DeleteOrderRange(List<Order> orders);
         Order? GetOrderById(Guid orderId);
         IEnumerable<Order> GetAllOrders();
     }
