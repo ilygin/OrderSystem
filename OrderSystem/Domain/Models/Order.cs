@@ -1,6 +1,6 @@
 ﻿namespace OrderSystem.Domain.Models
 {
-    //TODO: Add prpduct and customer tables.
+    //TODO: Add product and customer tables.
     public class Order
     {
         public Guid Id { get; set; }
