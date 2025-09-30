@@ -86,8 +86,8 @@ namespace OrderSystem.Tests
                 repository.CreateOrder(order);
 
                 order.CustomerName = "Updated Customer";
-                int counter = repository.UpdateOrder(order);
-                Assert.Equal(1, counter);
+                Order? result= repository.UpdateOrder(order);
+                Assert.Equal(order, result);
 
                 var updatedOrder = repository.GetOrderById(order.Id);
                 Assert.NotNull(updatedOrder);

@@ -5,7 +5,7 @@ namespace OrderSystem.Domain.Interfaces
     public interface IOrderRepository
     {
         void CreateOrder(Order order);
-        Order? UpdateOrder(Guid id, Order order);
+        Order? UpdateOrder(Order order);
         int UpdateOrdersRange(List<Order> orders);
         int DeleteOrder(Order order);
         int DeleteOrderRange(List<Order> orders);

@@ -42,6 +42,7 @@ namespace OrderSystem.Application
             if(id == Guid.Empty) return null;
             Order order = new Order()
             {
+                Id = id,
                 CreatedOn = DateTime.Now,
                 CustomerName = data.CustomerName,
                 TotalAmount = data.Amount * data.Count
@@ -56,14 +57,16 @@ namespace OrderSystem.Application
             {
                 throw new Exception("CustomerName must be fiiled in.");
             }
-            return _orderRepository.UpdateOrder(id, order);
+            return _orderRepository.UpdateOrder(order);
         }
-        //TODO Поменять удаление по Id. Возможно поменять удаление в репозитории. 
+
         public bool DeleteOrder(OrderRequestDto data)
         {
             if (data == null) return false;
-//            _orderRepository.DeleteOrder();
-            return false;
+            Order? order = _orderRepository.GetOrderById(data.Id);
+            if (order == null) return false;
+            int count = _orderRepository.DeleteOrder(order);
+            return count == 1;
         }
     }
 }
