@@ -21,7 +21,7 @@ namespace OrderSystem.Application
         {
             Order order = new Order()
             {
-                CreatedOn = DateTime.Now,
+                CreatedOn = DateTime.UtcNow,
                 CustomerName = data.CustomerName,
                 TotalAmount = data.Amount * data.Count
             };
@@ -32,21 +32,18 @@ namespace OrderSystem.Application
 
             if (order.CustomerName == null || order.CustomerName == string.Empty)
             {
-                throw new Exception("CustomerName must be fiiled in.");
+                throw new Exception("CustomerName must be filled in.");
             }
             _orderRepository.CreateOrder(order);
-            return new Order();
+            return order;
         }
         public Order? UpdateOrder(Guid id, OrderRequestDto data)
         {
             if(id == Guid.Empty) return null;
-            Order order = new Order()
-            {
-                Id = id,
-                CreatedOn = DateTime.Now,
-                CustomerName = data.CustomerName,
-                TotalAmount = data.Amount * data.Count
-            };
+            Order? order = _orderRepository.GetOrderById(id);
+            if (order == null) return null;
+            order.CustomerName = data.CustomerName;
+            order.TotalAmount = data.Amount * data.Count;
 
             if (order.TotalAmount < 0)
             {
@@ -55,7 +52,7 @@ namespace OrderSystem.Application
 
             if (order.CustomerName == null || order.CustomerName == string.Empty)
             {
-                throw new Exception("CustomerName must be fiiled in.");
+                throw new Exception("CustomerName must be filled in.");
             }
             return _orderRepository.UpdateOrder(order);
         }
