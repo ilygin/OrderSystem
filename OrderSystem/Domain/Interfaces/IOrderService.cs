@@ -5,7 +5,7 @@ namespace OrderSystem.Domain.Interfaces
 {
     public interface IOrderService
     {
-        public Order GetOrder(Guid id);
+        public Order? GetOrder(Guid id);
         public IEnumerable<Order> GetAllOrders();
         public Order CreateOrder(OrderRequestDto data);
         public Order? UpdateOrder(Guid id, OrderRequestDto data);

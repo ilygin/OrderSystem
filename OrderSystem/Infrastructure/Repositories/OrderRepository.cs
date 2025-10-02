@@ -33,12 +33,12 @@ namespace OrderSystem.Infrastructure.Repositories
             return _context.SaveChanges();
         }
 
-        public int UpdateOrder(Order order)
+        public Order? UpdateOrder(Order order)
         {
-            if (order == null) return 0;
+            if (order == null) return null;
             order.ModifiedOn = DateTime.UtcNow;
-            _context.Orders.Update(order);
-            return 1;
+             _context.Orders.Update(order);
+            return order;
         }
         public int UpdateOrdersRange(List<Order> orders)
         {
