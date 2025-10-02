@@ -1,9 +1,9 @@
 ﻿namespace OrderSystem.Domain.DTO
 {
-    public class BaseResonse<T>
+    public class BaseResponse<T>
     {
         public int Code { get; set; }
-        public int Message { get; set; }
+        public string Message { get; set; }
         public T? Data { get; set; }
     }
 }

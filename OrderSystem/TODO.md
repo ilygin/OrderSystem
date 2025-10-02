@@ -1,7 +1,7 @@
-﻿# TODO List
+﻿/.  # TODO List
 
 ## Фичи и улучшения
-- добавить новые объекты в Order
+- добавить новые объекты в Order. Добавлять по 1-2 объекту за спринт
 	- OrderTypes
 	- Payments
 	- Customer

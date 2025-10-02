@@ -2,6 +2,7 @@
 using OrderSystem.Domain.DTO;
 using OrderSystem.Domain.Interfaces;
 using OrderSystem.Domain.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,42 +13,140 @@ namespace OrderSystem.Infrastructure.Contollers
     public class OrdersController : ControllerBase
     {
         private readonly IOrderService _orderService;
-        public OrdersController(IOrderService service) 
-        { 
+        public OrdersController(IOrderService service)
+        {
             _orderService = service;
         }
-        
+
         // GET: api/<OrdersController>
         [HttpGet]
-        public BaseResonse<IEnumerable<string>> Get()
+        public BaseResponse<IEnumerable<Order>> Get()
         {
-            _orderService.GetAllOrders();
-            return new string[] { "value1", "value2" };
+            BaseResponse<IEnumerable<Order>> resp = new BaseResponse<IEnumerable<Order>>();
+            try
+            {
+                resp.Data = _orderService.GetAllOrders();
+                resp.Code = 200;
+                resp.Message = "Success";
+            }
+            catch (Exception ex)
+            {
+                resp.Code = 500;
+                resp.Message = ex.Message;
+            }
+            return resp;
         }
 
-        // GET api/<OrdersController>/5
+        // GET api/<OrdersController>/guid
         [HttpGet("{id}")]
-        public BaseResonse<string> Get(int id)
+        public BaseResponse<Order> Get(Guid id)
         {
-            return "value";
+            BaseResponse<Order> resp = new BaseResponse<Order>();
+
+            if (id == Guid.Empty)
+            {
+                resp.Code = 500;
+                resp.Message = "Id is empty";
+                return resp;
+            }
+
+            try
+            {
+                resp.Data = _orderService.GetOrder(id);
+                resp.Code = 200;
+                resp.Message = "Success";
+            }
+            catch (Exception ex)
+            {
+                resp.Code = 500;
+                resp.Message = ex.Message;
+            }
+            return resp;
         }
 
         // POST api/<OrdersController>
         [HttpPost]
-        public BaseResonse<Order> Post([FromBody] string value)
+        public BaseResponse<Order> Post([FromBody] OrderRequestDto? data)
         {
+            BaseResponse<Order> resp = new BaseResponse<Order>();
+            if (data == null)
+            {
+                resp.Code = 500;
+                resp.Message = "data is empty";
+                return resp;
+            }
+
+            try
+            {
+                resp.Data = _orderService.CreateOrder(data);
+                resp.Code = 200;
+                resp.Message = "Success";
+            }
+            catch (Exception ex)
+            {
+                resp.Code = 500;
+                resp.Message = ex.Message;
+            }
+            return resp;
         }
 
         // PUT api/<OrdersController>/5
         [HttpPut("{id}")]
-        public BaseResonse<Order> Put(int id, [FromBody] string value)
+        public BaseResponse<Order> Put(Guid id, [FromBody] OrderRequestDto data)
         {
+            BaseResponse<Order> resp = new BaseResponse<Order>();
+            if (data == null)
+            {
+                resp.Code = 500;
+                resp.Message = "data is empty";
+                return resp;
+            }
+
+            if (id == Guid.Empty)
+            {
+                resp.Code = 500;
+                resp.Message = "Id is empty";
+                return resp;
+            }
+
+            try
+            {
+                resp.Data = _orderService.UpdateOrder(id, data);
+                resp.Code = 200;
+                resp.Message = "Success";
+            }
+            catch (Exception ex)
+            {
+                resp.Code = 500;
+                resp.Message = ex.Message;
+            }
+            return resp;
         }
 
         // DELETE api/<OrdersController>/5
         [HttpDelete("{id}")]
-        public BaseResonse<bool> Delete(int id)
+        public BaseResponse<bool> Delete(Guid id)
         {
+            BaseResponse<bool> resp = new BaseResponse<bool>();
+
+            if (id == Guid.Empty)
+            {
+                resp.Code = 500;
+                resp.Message = "Id is empty";
+                return resp;
+            }
+            try
+            {
+                resp.Data = _orderService.DeleteOrder(new OrderRequestDto() { Id = id });
+                resp.Code = 200;
+                resp.Message = "Success";
+            }
+            catch (Exception ex)
+            {
+                resp.Code = 500;
+                resp.Message = ex.Message;
+            }
+            return resp;
         }
     }
 }
