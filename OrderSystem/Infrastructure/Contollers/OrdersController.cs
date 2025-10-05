@@ -2,9 +2,7 @@
 using OrderSystem.Domain.DTO;
 using OrderSystem.Domain.Interfaces;
 using OrderSystem.Domain.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace OrderSystem.Infrastructure.Contollers
 {
