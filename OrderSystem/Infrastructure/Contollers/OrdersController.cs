@@ -4,7 +4,7 @@ using OrderSystem.Domain.Interfaces;
 using OrderSystem.Domain.Models;
 
 
-namespace OrderSystem.Infrastructure.Contollers
+namespace OrderSystem.Infrastructure.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
