@@ -65,5 +65,10 @@ namespace OrderSystem.Application
             int count = _orderRepository.DeleteOrder(order);
             return count == 1;
         }
+
+        public bool DeleteOrder(Guid id)
+        {
+           return DeleteOrder(new OrderRequestDto { Id = id });
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace OrderSystem.Domain.Interfaces
         public Order CreateOrder(OrderRequestDto data);
         public Order? UpdateOrder(Guid id, OrderRequestDto data);
         public bool DeleteOrder(OrderRequestDto data);
+        public bool DeleteOrder(Guid id);
     }
 }

@@ -135,7 +135,7 @@ namespace OrderSystem.Infrastructure.Controllers
             }
             try
             {
-                resp.Data = _orderService.DeleteOrder(new OrderRequestDto() { Id = id });
+                resp.Data = _orderService.DeleteOrder(id);
                 resp.Code = 200;
                 resp.Message = "Success";
             }
