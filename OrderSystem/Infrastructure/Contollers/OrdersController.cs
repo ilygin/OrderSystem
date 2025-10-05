@@ -43,7 +43,7 @@ namespace OrderSystem.Infrastructure.Controllers
 
             if (id == Guid.Empty)
             {
-                resp.Code = 500;
+                resp.Code = 400;
                 resp.Message = "Id is empty";
                 return resp;
             }
