@@ -69,7 +69,7 @@ namespace OrderSystem.Infrastructure.Controllers
             BaseResponse<Order> resp = new BaseResponse<Order>();
             if (data == null)
             {
-                resp.Code = 500;
+                resp.Code = 400;
                 resp.Message = "data is empty";
                 return resp;
             }
@@ -129,7 +129,7 @@ namespace OrderSystem.Infrastructure.Controllers
 
             if (id == Guid.Empty)
             {
-                resp.Code = 500;
+                resp.Code = 400;
                 resp.Message = "Id is empty";
                 return resp;
             }
