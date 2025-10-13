@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
 using OrderSystem.Domain.DTO;
 using OrderSystem.Domain.Interfaces;
 using OrderSystem.Domain.Models;
-
+using OrderSystem.Infrastructure.Validation;
+using System;
 
 namespace OrderSystem.Infrastructure.Controllers
 {
@@ -11,9 +14,11 @@ namespace OrderSystem.Infrastructure.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IOrderService _orderService;
-        public OrdersController(IOrderService service)
+        private IValidator<OrderRequestDto> _validator;
+        public OrdersController(IOrderService service, IValidator<OrderRequestDto> validator)
         {
             _orderService = service;
+            _validator = validator;
         }
 
         // GET: api/<OrdersController>
@@ -67,10 +72,15 @@ namespace OrderSystem.Infrastructure.Controllers
         public BaseResponse<Order> Post([FromBody] OrderRequestDto? data)
         {
             BaseResponse<Order> resp = new BaseResponse<Order>();
-            if (data == null)
+            
+            ValidationResult validation = _validator.Validate(data);
+            if (validation.IsValid == false)
             {
+                foreach(var error in validation.Errors)
+                {
+                    resp.Message += error.ErrorMessage;
+                }
                 resp.Code = 400;
-                resp.Message = "data is empty";
                 return resp;
             }
 
@@ -93,10 +103,14 @@ namespace OrderSystem.Infrastructure.Controllers
         public BaseResponse<Order> Put(Guid id, [FromBody] OrderRequestDto data)
         {
             BaseResponse<Order> resp = new BaseResponse<Order>();
-            if (data == null)
+            ValidationResult validation = _validator.Validate(data);
+            if (validation.IsValid == false)
             {
+                foreach (var error in validation.Errors)
+                {
+                    resp.Message += error.ErrorMessage;
+                }
                 resp.Code = 400;
-                resp.Message = "data is empty";
                 return resp;
             }
 
