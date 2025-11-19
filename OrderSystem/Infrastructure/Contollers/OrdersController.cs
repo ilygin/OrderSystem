@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using OrderSystem.Domain.DTO;
 using OrderSystem.Domain.Interfaces;
 using OrderSystem.Domain.Models;
-using OrderSystem.Infrastructure.Validation;
 using System;
 
 namespace OrderSystem.Infrastructure.Controllers
