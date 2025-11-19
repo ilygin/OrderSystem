@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using OrderSystem.Domain.DTO;
 using OrderSystem.Domain.Interfaces;
 using OrderSystem.Domain.Models;
-using OrderSystem.Infrastructure.Validation;
-using System;
 
 namespace OrderSystem.Infrastructure.Controllers
 {
@@ -14,7 +12,7 @@ namespace OrderSystem.Infrastructure.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IOrderService _orderService;
-        private IValidator<OrderRequestDto> _validator;
+        private readonly IValidator<OrderRequestDto> _validator;
         public OrdersController(IOrderService service, IValidator<OrderRequestDto> validator)
         {
             _orderService = service;
@@ -72,14 +70,17 @@ namespace OrderSystem.Infrastructure.Controllers
         public BaseResponse<Order> Post([FromBody] OrderRequestDto? data)
         {
             BaseResponse<Order> resp = new BaseResponse<Order>();
-            
+            if (data == null)
+            {
+                resp.Code = 400;
+                resp.Message = "Request body is missing or invalid.";
+                return resp;
+            }
+
             ValidationResult validation = _validator.Validate(data);
             if (validation.IsValid == false)
             {
-                foreach(var error in validation.Errors)
-                {
-                    resp.Message += error.ErrorMessage;
-                }
+                resp.Message = string.Join("; ", validation.Errors.Select(e => e.ErrorMessage));
                 resp.Code = 400;
                 return resp;
             }
@@ -103,13 +104,17 @@ namespace OrderSystem.Infrastructure.Controllers
         public BaseResponse<Order> Put(Guid id, [FromBody] OrderRequestDto data)
         {
             BaseResponse<Order> resp = new BaseResponse<Order>();
+            if (data == null)
+            {
+                resp.Code = 400;
+                resp.Message = "Request body is missing or invalid.";
+                return resp;
+            }
+
             ValidationResult validation = _validator.Validate(data);
             if (validation.IsValid == false)
             {
-                foreach (var error in validation.Errors)
-                {
-                    resp.Message += error.ErrorMessage;
-                }
+                resp.Message = string.Join("; ", validation.Errors.Select(e => e.ErrorMessage));
                 resp.Code = 400;
                 return resp;
             }

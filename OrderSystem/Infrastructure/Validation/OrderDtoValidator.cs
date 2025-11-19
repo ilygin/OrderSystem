@@ -8,7 +8,7 @@ namespace OrderSystem.Infrastructure.Validation
         public OrderDtoValidator() 
         {
             RuleFor(dto => dto.CustomerName).NotEmpty();
-            RuleFor(dto => dto.TotalAmount).NotEmpty().GreaterThanOrEqualTo(0);
+            RuleFor(dto => dto.TotalAmount).GreaterThanOrEqualTo(0);
         }
     }
 }

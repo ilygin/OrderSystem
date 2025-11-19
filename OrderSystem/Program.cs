@@ -16,7 +16,7 @@ builder.Services.AddDbContext<OrderSystemDbContext>(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<IValidator<OrderDto>, OrderDtoValidator>();
-builder.Services.AddScoped<IValidator<OrderRequestDto>, OrderRequestDtoValidator > ();
+builder.Services.AddScoped<IValidator<OrderRequestDto>, OrderRequestDtoValidator>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

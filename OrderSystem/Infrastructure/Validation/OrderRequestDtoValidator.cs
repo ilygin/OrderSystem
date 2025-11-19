@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using OrderSystem.Domain.DTO;
-using System.Net;
 
 namespace OrderSystem.Infrastructure.Validation
 {
@@ -8,8 +7,8 @@ namespace OrderSystem.Infrastructure.Validation
     {
         public OrderRequestDtoValidator() 
         { 
-            RuleFor(request => request.Amount).NotNull().NotEmpty().GreaterThanOrEqualTo(0);
-            RuleFor(request => request.Count).NotNull().NotEmpty().GreaterThanOrEqualTo(0);
+            RuleFor(request => request.Amount).GreaterThanOrEqualTo(0);
+            RuleFor(request => request.Count).GreaterThanOrEqualTo(0);
             RuleFor(request => request.CustomerName).NotEmpty();
         }
     }
