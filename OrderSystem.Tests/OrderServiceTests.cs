@@ -31,7 +31,7 @@ namespace OrderSystem.Tests
         }
 
         [Fact]
-        public void CreateOrderAsync_ShouldCreateOrder()
+        public void CreateOrder_ShouldCreateOrder()
         {
             // Arrange
             var orderId = Guid.NewGuid();
