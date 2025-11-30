@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using OrderSystem.Application;
 using OrderSystem.Domain.DTO;
 using OrderSystem.Domain.Interfaces;
