@@ -6,10 +6,6 @@ using OrderSystem.Domain.Models;
 using OrderSystem.Infrastructure.Context;
 using OrderSystem.Infrastructure.Repositories;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrderSystem.Tests
 {
