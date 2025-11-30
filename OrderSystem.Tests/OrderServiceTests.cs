@@ -64,7 +64,7 @@ namespace OrderSystem.Tests
                 Count = 100,
                 Amount = 100.50m
             };
-            var createdOrder = _orderService.CreateOrder(testRecord);
+            _orderService.CreateOrder(testRecord);
             Order? result = _repository.GetOrderById(orderId);
             // Assert
             Assert.NotNull(result);
