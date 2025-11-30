@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderSystem.Application;
 using OrderSystem.Domain.DTO;
-using OrderSystem.Domain.Interfaces;
 using OrderSystem.Domain.Models;
 using OrderSystem.Infrastructure.Context;
 using OrderSystem.Infrastructure.Repositories;
@@ -11,23 +10,19 @@ namespace OrderSystem.Tests
 {
     public class OrderServiceTests
     {
-        private readonly OrderSystemDbContext _context;
-        private readonly IOrderService _orderService;
-        private readonly IOrderRepository _repository;
-
-        public OrderServiceTests()
+        private static DbContextOptions<OrderSystemDbContext> GetDbContextOptions()
         {
-            var options = new DbContextOptionsBuilder<OrderSystemDbContext>()
+            return new DbContextOptionsBuilder<OrderSystemDbContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
-            _context = new OrderSystemDbContext(options);
-            _repository = new OrderRepository(_context);
-            _orderService = new OrderService(_repository);
         }
 
         [Fact]
         public void CreateOrder_ShouldCreateOrder()
         {
+            using var context = new OrderSystemDbContext(GetDbContextOptions());
+            var repository = new OrderRepository(context);
+            var orderService = new OrderService(repository);
             // Arrange
             var orderId = Guid.NewGuid();
             OrderRequestDto testRecord = new()
@@ -38,10 +33,10 @@ namespace OrderSystem.Tests
                 Amount = 100.50m
             };
 
-            var createdOrder = _orderService.CreateOrder(testRecord);
+            var createdOrder = orderService.CreateOrder(testRecord);
 
             // Assert
-            var result = _repository.GetOrderById(orderId);
+            var result = repository.GetOrderById(orderId);
             Assert.NotNull(result);
             Assert.Equal("Test Customer", result.CustomerName);
             Assert.Equal(10050.00m, result.TotalAmount);
@@ -50,6 +45,9 @@ namespace OrderSystem.Tests
         [Fact]
         public void GetOrderById_ShouldReturnOrder()
         {
+            using var context = new OrderSystemDbContext(GetDbContextOptions());
+            var repository = new OrderRepository(context);
+            var orderService = new OrderService(repository);
             // Arrange
             var orderId = Guid.NewGuid();
             OrderRequestDto testRecord = new()
@@ -59,8 +57,8 @@ namespace OrderSystem.Tests
                 Count = 100,
                 Amount = 100.50m
             };
-            _orderService.CreateOrder(testRecord);
-            Order? result = _repository.GetOrderById(orderId);
+            orderService.CreateOrder(testRecord);
+            Order? result = repository.GetOrderById(orderId);
             // Assert
             Assert.NotNull(result);
             Assert.Equal("Test Customer", result.CustomerName);
@@ -70,6 +68,9 @@ namespace OrderSystem.Tests
         [Fact]
         public void GetOrderById_ShouldReturnNull()
         {
+            using var context = new OrderSystemDbContext(GetDbContextOptions());
+            var repository = new OrderRepository(context);
+            var orderService = new OrderService(repository);
             // Arrange
             OrderRequestDto testRecord = new()
             {
@@ -78,8 +79,8 @@ namespace OrderSystem.Tests
                 Count = 100,
                 Amount = 100.50m
             };
-            var createdOrder = _orderService.CreateOrder(testRecord);
-            Order? result = _repository.GetOrderById(Guid.NewGuid());
+            var createdOrder = orderService.CreateOrder(testRecord);
+            Order? result = repository.GetOrderById(Guid.NewGuid());
             // Assert
             Assert.Null(result);
         }
