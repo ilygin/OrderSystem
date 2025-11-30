@@ -43,13 +43,14 @@ namespace OrderSystem.Tests
                 Amount = 100.50m
             };
 
+            // Act
             var createdOrder = _orderService.CreateOrder(testRecord);
 
             // Assert
-            var result = _repository.GetOrderById(orderId);
-            Assert.NotNull(result);
-            Assert.Equal("Test Customer", result.CustomerName);
-            Assert.Equal(10050.00m, result.TotalAmount);
+            Assert.NotNull(createdOrder);
+            Assert.Equal(orderId, createdOrder.Id);
+            Assert.Equal("Test Customer", createdOrder.CustomerName);
+            Assert.Equal(10050.00m, createdOrder.TotalAmount);
         }
 
         [Fact]
@@ -64,8 +65,10 @@ namespace OrderSystem.Tests
                 Count = 100,
                 Amount = 100.50m
             };
-            var createdOrder = _orderService.CreateOrder(testRecord);
+            // Act
+            _ = _orderService.CreateOrder(testRecord);
             Order? result = _repository.GetOrderById(orderId);
+
             // Assert
             Assert.NotNull(result);
             Assert.Equal("Test Customer", result.CustomerName);
@@ -83,8 +86,10 @@ namespace OrderSystem.Tests
                 Count = 100,
                 Amount = 100.50m
             };
-            var createdOrder = _orderService.CreateOrder(testRecord);
+            // Act
+            _ = _orderService.CreateOrder(testRecord);
             Order? result = _repository.GetOrderById(Guid.NewGuid());
+
             // Assert
             Assert.Null(result);
         }
