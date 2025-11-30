@@ -21,6 +21,7 @@ namespace OrderSystem.Application
         {
             Order order = new Order()
             {
+                Id = data.Id == Guid.Empty ? new Guid() : data.Id,
                 CreatedOn = DateTime.UtcNow,
                 CustomerName = data.CustomerName,
                 TotalAmount = data.Amount * data.Count
