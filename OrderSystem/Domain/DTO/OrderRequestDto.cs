@@ -1,4 +1,6 @@
-﻿namespace OrderSystem.Domain.DTO
+﻿using OrderSystem.Domain.Enums;
+
+namespace OrderSystem.Domain.DTO
 {
     public class OrderRequestDto
     {
@@ -6,5 +8,6 @@
         public string? CustomerName {  get; set; }
         public decimal Amount { get; set; }
         public int Count { get; set; }
+        public OrderStatus Status { get; set; }
     }
 }
