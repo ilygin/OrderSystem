@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OrderSystem.Domain.Enums;
 using OrderSystem.Domain.Models;
 using OrderSystem.Infrastructure.Context;
 using OrderSystem.Infrastructure.Repositories;
@@ -29,7 +30,8 @@ namespace OrderSystem.Tests
                     CustomerName = "Test Customer",
                     TotalAmount = 100.50m,
                     CreatedOn = DateTime.UtcNow,
-                    ModifiedOn = DateTime.UtcNow
+                    ModifiedOn = DateTime.UtcNow,
+                    Status = OrderStatus.Created
                 });
                 await context.SaveChangesAsync();
                 var repository = new OrderRepository(context);
@@ -77,7 +79,8 @@ namespace OrderSystem.Tests
                 CustomerName = "Test Customer",
                 TotalAmount = 100.50m,
                 CreatedOn = DateTime.UtcNow,
-                ModifiedOn = DateTime.UtcNow
+                ModifiedOn = DateTime.UtcNow,
+                Status = OrderStatus.Created
             };
 
             using (var context = new OrderSystemDbContext(options))
