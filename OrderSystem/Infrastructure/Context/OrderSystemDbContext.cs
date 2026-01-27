@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OrderSystem.Models;
-using OrderSystem.Models.Domain;
+using OrderSystem.Domain.Models;
 
-namespace OrderSystem.Context
+namespace OrderSystem.Infrastructure.Context
 {
     public class OrderSystemDbContext : DbContext
     {
