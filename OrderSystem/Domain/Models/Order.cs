@@ -1,4 +1,6 @@
-﻿namespace OrderSystem.Domain.Models
+﻿using OrderSystem.Domain.Enums;
+
+namespace OrderSystem.Domain.Models
 {
     //TODO: Add product and customer tables.
     public class Order
@@ -8,6 +10,7 @@
         public DateTime ModifiedOn { get; set; }
         public string? CustomerName { get; set; }
         public decimal TotalAmount { get; set; }
+        public OrderStatus Status { get; set; } = OrderStatus.Created;
 
     }
 }

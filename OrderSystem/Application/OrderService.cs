@@ -21,9 +21,11 @@ namespace OrderSystem.Application
         {
             Order order = new Order()
             {
+                Id = data.Id == Guid.Empty ? Guid.NewGuid() : data.Id,
                 CreatedOn = DateTime.UtcNow,
                 CustomerName = data.CustomerName,
-                TotalAmount = data.Amount * data.Count
+                TotalAmount = data.Amount * data.Count,
+                Status = data.Status,
             };
             if (order.TotalAmount < 0)
             {
@@ -44,6 +46,7 @@ namespace OrderSystem.Application
             if (order == null) return null;
             order.CustomerName = data.CustomerName;
             order.TotalAmount = data.Amount * data.Count;
+            order.Status = data.Status;
 
             if (order.TotalAmount < 0)
             {

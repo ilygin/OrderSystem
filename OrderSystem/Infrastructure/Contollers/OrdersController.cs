@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
 using OrderSystem.Domain.DTO;
 using OrderSystem.Domain.Interfaces;
 using OrderSystem.Domain.Models;
-
 
 namespace OrderSystem.Infrastructure.Controllers
 {
@@ -11,9 +12,11 @@ namespace OrderSystem.Infrastructure.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IOrderService _orderService;
-        public OrdersController(IOrderService service)
+        private readonly IValidator<OrderRequestDto> _validator;
+        public OrdersController(IOrderService service, IValidator<OrderRequestDto> validator)
         {
             _orderService = service;
+            _validator = validator;
         }
 
         // GET: api/<OrdersController>
@@ -70,7 +73,15 @@ namespace OrderSystem.Infrastructure.Controllers
             if (data == null)
             {
                 resp.Code = 400;
-                resp.Message = "data is empty";
+                resp.Message = "Request body is missing or invalid.";
+                return resp;
+            }
+
+            ValidationResult validation = _validator.Validate(data);
+            if (validation.IsValid == false)
+            {
+                resp.Message = string.Join("; ", validation.Errors.Select(e => e.ErrorMessage));
+                resp.Code = 400;
                 return resp;
             }
 
@@ -96,7 +107,15 @@ namespace OrderSystem.Infrastructure.Controllers
             if (data == null)
             {
                 resp.Code = 400;
-                resp.Message = "data is empty";
+                resp.Message = "Request body is missing or invalid.";
+                return resp;
+            }
+
+            ValidationResult validation = _validator.Validate(data);
+            if (validation.IsValid == false)
+            {
+                resp.Message = string.Join("; ", validation.Errors.Select(e => e.ErrorMessage));
+                resp.Code = 400;
                 return resp;
             }
 

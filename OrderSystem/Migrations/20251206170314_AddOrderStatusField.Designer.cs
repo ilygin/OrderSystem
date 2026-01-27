@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OrderSystem.Infrastructure.Context;
@@ -11,9 +12,11 @@ using OrderSystem.Infrastructure.Context;
 namespace OrderSystem.Migrations
 {
     [DbContext(typeof(OrderSystemDbContext))]
-    partial class OrderSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251206170314_AddOrderStatusField")]
+    partial class AddOrderStatusField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
