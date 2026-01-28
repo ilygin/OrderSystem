@@ -2,7 +2,7 @@
 
 namespace OrderSystem.Domain.Exceptions
 {
-    public class OrderNotFoundException(int orderId) : OrderSystemException(string.Format(ExceptionMessages.OrderNotFound, orderId), 404)
+    public class OrderNotFoundException(Guid orderId) : OrderSystemException(string.Format(ExceptionMessages.OrderNotFound, orderId), 404)
     {
     }
 }
