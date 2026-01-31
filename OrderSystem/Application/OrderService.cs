@@ -12,7 +12,12 @@ namespace OrderSystem.Application
         public Result<Order> GetOrder(Guid id)
         {
             if (id == Guid.Empty) return Result<Order>.Failure(null, "OrderId is required.");
-            return  Result<Order>.Success(_orderRepository.GetOrderById(id));
+            Order? item = _orderRepository.GetOrderById(id);
+            if (item == null)
+            {
+                return Result<Order>.Failure(null, "Order not found");
+            }
+            return  Result<Order>.Success(item);
         }
         public Result<IEnumerable<Order>>  GetAllOrders()
         { 

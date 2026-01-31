@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace OrderSystem.Domain.Common
+﻿namespace OrderSystem.Domain.Common
 {
     public class Result<T>
     {
@@ -11,8 +9,8 @@ namespace OrderSystem.Domain.Common
             Body = body;
         }
 
-        public bool IsSuccess { set; get; }
-        public string? Message { set; get; }
+        public bool IsSuccess { get; }
+        public string? Message { get; }
         public T? Body { set; get; }
 
         public static Result<T> Success(T? body)
@@ -34,8 +32,8 @@ namespace OrderSystem.Domain.Common
             Message = msg;
         }
 
-        public bool IsSuccess { set; get; }
-        public string? Message { set; get; }
+        public bool IsSuccess { get; }
+        public string? Message { get; }
 
         public static Result Success()
         { 
