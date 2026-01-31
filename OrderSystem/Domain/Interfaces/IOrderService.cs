@@ -1,15 +1,16 @@
 ﻿using OrderSystem.Domain.DTO;
 using OrderSystem.Domain.Models;
+using OrderSystem.Domain.Common;
 
 namespace OrderSystem.Domain.Interfaces
 {
     public interface IOrderService
     {
-        public Order? GetOrder(Guid id);
-        public IEnumerable<Order> GetAllOrders();
-        public Order CreateOrder(OrderRequestDto data);
-        public Order? UpdateOrder(Guid id, OrderRequestDto data);
-        public bool DeleteOrder(OrderRequestDto data);
-        public bool DeleteOrder(Guid id);
+        public Result<Order> GetOrder(Guid id);
+        public Result<IEnumerable<Order>>  GetAllOrders();
+        public Result<Order> CreateOrder(OrderRequestDto data);
+        public Result<Order> UpdateOrder(Guid id, OrderRequestDto data);
+        public Result<bool> DeleteOrder(OrderRequestDto data);
+        public Result<bool>  DeleteOrder(Guid id);
     }
 }

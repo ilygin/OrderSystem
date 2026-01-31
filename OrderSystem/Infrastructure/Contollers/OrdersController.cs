@@ -26,7 +26,7 @@ namespace OrderSystem.Infrastructure.Controllers
             BaseResponse<IEnumerable<Order>> resp = new BaseResponse<IEnumerable<Order>>();
             try
             {
-                resp.Data = _orderService.GetAllOrders();
+                resp.Data = _orderService.GetAllOrders().Body;
                 resp.Code = 200;
                 resp.Message = "Success";
             }
@@ -53,7 +53,7 @@ namespace OrderSystem.Infrastructure.Controllers
 
             try
             {
-                resp.Data = _orderService.GetOrder(id);
+                resp.Data = _orderService.GetOrder(id).Body;
                 resp.Code = 200;
                 resp.Message = "Success";
             }
@@ -87,7 +87,7 @@ namespace OrderSystem.Infrastructure.Controllers
 
             try
             {
-                resp.Data = _orderService.CreateOrder(data);
+                resp.Data = _orderService.CreateOrder(data).Body;
                 resp.Code = 200;
                 resp.Message = "Success";
             }
@@ -128,7 +128,7 @@ namespace OrderSystem.Infrastructure.Controllers
 
             try
             {
-                resp.Data = _orderService.UpdateOrder(id, data);
+                resp.Data = _orderService.UpdateOrder(id, data).Body;
                 resp.Code = 200;
                 resp.Message = "Success";
             }
@@ -154,7 +154,7 @@ namespace OrderSystem.Infrastructure.Controllers
             }
             try
             {
-                resp.Data = _orderService.DeleteOrder(id);
+                resp.Data = _orderService.DeleteOrder(id).Body;
                 resp.Code = 200;
                 resp.Message = "Success";
             }
