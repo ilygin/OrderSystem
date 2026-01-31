@@ -24,3 +24,10 @@
 
 ## Идеи для экспериментов
 - Внедрить автоматическое тестирование новых функций с помощью CI/CD пайплайна
+
+
+## Review by Copilot
+
+- The CreateOrder/UpdateOrder methods changed from throwing exceptions to returning Failure results for domain validation errors. There are existing unit tests for OrderService (OrderSystem.Tests/OrderServiceTests.cs), but none currently assert the new Result contract (IsSuccess=false and the expected Message) for invalid inputs like negative amounts or missing customer name. Add tests to cover these new failure paths
+- The CreateOrder/UpdateOrder methods changed from throwing exceptions to returning Failure results for domain validation errors. There are existing unit tests for OrderService (OrderSystem.Tests/OrderServiceTests.cs), but none currently assert the new Result contract (IsSuccess=false and the expected Message) for invalid inputs like negative amounts or missing customer name. Add tests to cover these new failure paths.
+

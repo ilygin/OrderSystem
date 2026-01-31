@@ -1,4 +1,5 @@
-﻿using OrderSystem.Domain.DTO;
+﻿using OrderSystem.Domain.Common;
+using OrderSystem.Domain.DTO;
 using OrderSystem.Domain.Interfaces;
 using OrderSystem.Domain.Models;
 
@@ -8,16 +9,21 @@ namespace OrderSystem.Application
     {
         private readonly IOrderRepository _orderRepository = orderRepository;
 
-        public Order? GetOrder(Guid id)
+        public Result<Order> GetOrder(Guid id)
         {
-            if (id == Guid.Empty) return null;
-            return _orderRepository.GetOrderById(id);
+            if (id == Guid.Empty) return Result<Order>.Failure(null, "OrderId is required.");
+            Order? item = _orderRepository.GetOrderById(id);
+            if (item == null)
+            {
+                return Result<Order>.Failure(null, "Order not found");
+            }
+            return  Result<Order>.Success(item);
         }
-        public IEnumerable<Order> GetAllOrders()
+        public Result<IEnumerable<Order>>  GetAllOrders()
         { 
-            return _orderRepository.GetAllOrders(); 
+            return Result<IEnumerable<Order>>.Success(_orderRepository.GetAllOrders()); 
         }
-        public Order CreateOrder(OrderRequestDto data)
+        public Result<Order> CreateOrder(OrderRequestDto data)
         {
             Order order = new Order()
             {
@@ -29,47 +35,47 @@ namespace OrderSystem.Application
             };
             if (order.TotalAmount < 0)
             {
-                throw new Exception("Amount must be greater or equal 0;");
+                return Result<Order>.Failure(order, "Amount must be greater or equal 0;");
             }
 
             if (order.CustomerName == null || order.CustomerName == string.Empty)
             {
-                throw new Exception("CustomerName must be filled in.");
+                return Result<Order>.Failure(order, "CustomerName must be filled in.");
             }
             _orderRepository.CreateOrder(order);
-            return order;
+            return Result<Order>.Success(order);
         }
-        public Order? UpdateOrder(Guid id, OrderRequestDto data)
+        public Result<Order> UpdateOrder(Guid id, OrderRequestDto data)
         {
-            if(id == Guid.Empty) return null;
+            if(id == Guid.Empty) return Result<Order>.Failure(null, "OrderId is required.");
             Order? order = _orderRepository.GetOrderById(id);
-            if (order == null) return null;
+            if (order == null) return Result<Order>.Failure(null, "Order not found");
             order.CustomerName = data.CustomerName;
             order.TotalAmount = data.Amount * data.Count;
             order.Status = data.Status;
 
             if (order.TotalAmount < 0)
             {
-                throw new Exception("Amount must be greater or equal 0;");
+                return Result<Order>.Failure(null, "Amount must be greater or equal 0;");
             }
 
             if (order.CustomerName == null || order.CustomerName == string.Empty)
             {
-                throw new Exception("CustomerName must be filled in.");
+                return Result<Order>.Failure(null, "CustomerName must be filled in.");
             }
-            return _orderRepository.UpdateOrder(order);
+            return Result<Order>.Success(_orderRepository.UpdateOrder(order));
         }
 
-        public bool DeleteOrder(OrderRequestDto data)
+        public Result<bool> DeleteOrder(OrderRequestDto data)
         {
-            if (data == null) return false;
+            if (data == null) return Result<bool>.Failure(false, "data is empty.");
             Order? order = _orderRepository.GetOrderById(data.Id);
-            if (order == null) return false;
+            if (order == null) return Result<bool>.Failure(false, "order not found.");
             int count = _orderRepository.DeleteOrder(order);
-            return count == 1;
+            return Result<bool>.Success(count == 1);
         }
 
-        public bool DeleteOrder(Guid id)
+        public Result<bool> DeleteOrder(Guid id)
         {
            return DeleteOrder(new OrderRequestDto { Id = id });
         }
