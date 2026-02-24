@@ -1,6 +1,5 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
 using OrderSystem.Application;
 using OrderSystem.Domain.DTO;
 using OrderSystem.Domain.Interfaces;
@@ -40,6 +39,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.MapGet("/", () => "Hello world!.");
 app.MapControllers();
-
 app.Run();
