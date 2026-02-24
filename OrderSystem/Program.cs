@@ -1,5 +1,6 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using OrderSystem.API;
 using OrderSystem.Application;
 using OrderSystem.Domain.DTO;
 using OrderSystem.Domain.Interfaces;
@@ -27,7 +28,7 @@ builder.Services.AddTransient<IOrderService, OrderService>();
 
 
 var app = builder.Build();
-
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
